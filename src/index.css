@@ -92,6 +92,61 @@ button:focus-visible {
   color: transparent;
 }
 
+/*
+  Hero name load-in flicker, on both words, complementary and offset so
+  they never snap in perfect lockstep. Each word is a single element —
+  animating `color` + `-webkit-text-stroke-color` together (not opacity)
+  means the letterform outline never disappears, only the fill switches.
+  step-end forces an instant digital cut instead of a fade between states.
+  A brief text-shadow flash on each "solid" beat adds punch. Runs once on
+  load, then holds its resting state.
+*/
+.glitch-solid {
+  color: var(--color-paper);
+  -webkit-text-stroke: 1px var(--color-paper);
+  animation: flicker-to-solid 2.5s step-end 1 both;
+}
+
+.glitch-hollow {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(242, 237, 226, 0.35);
+  animation: flicker-to-hollow 2.5s step-end 1 both;
+}
+
+/* starts solid, drops out a few times, ends solid */
+@keyframes flicker-to-solid {
+  0%   { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: none; }
+  6%   { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); text-shadow: none; }
+  9%   { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 18px rgba(255, 255, 255, 0.6); }
+  11%  { text-shadow: none; }
+  18%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); }
+  22%  { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 18px rgba(255, 255, 255, 0.6); }
+  24%  { text-shadow: none; }
+  45%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); }
+  50%  { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 20px rgba(255, 255, 255, 0.65); }
+  53%  { text-shadow: none; }
+  72%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); }
+  75%  { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 14px rgba(255, 255, 255, 0.5); }
+  78%  { text-shadow: none; }
+  100% { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: none; }
+}
+
+/* starts hollow, flashes solid a few times, ends hollow */
+@keyframes flicker-to-hollow {
+  0%   { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); text-shadow: none; }
+  8%   { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 18px rgba(255, 255, 255, 0.6); }
+  10%  { text-shadow: none; }
+  12%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); }
+  28%  { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 18px rgba(255, 255, 255, 0.6); }
+  30%  { text-shadow: none; }
+  31%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); }
+  55%  { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 20px rgba(255, 255, 255, 0.65); }
+  58%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); text-shadow: none; }
+  82%  { color: var(--color-paper); -webkit-text-stroke-color: var(--color-paper); text-shadow: 0 0 14px rgba(255, 255, 255, 0.5); }
+  84%  { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); text-shadow: none; }
+  100% { color: transparent; -webkit-text-stroke-color: rgba(242, 237, 226, 0.35); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -2,6 +2,35 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { hero, profile } from "../../data/content";
 
+// staggered negative delays so letters don't all snap in lockstep — each
+// jumps into the shared keyframe timeline at a different phase, so they
+// settle into their final state at slightly different moments too
+const LETTER_DELAYS = [0, -0.15, -0.4, -0.25, -0.55, -0.1, -0.35, -0.2];
+
+interface FlickerLettersProps {
+  text: string;
+  variant: "solid" | "hollow";
+}
+
+function FlickerLetters({ text, variant }: FlickerLettersProps) {
+  return (
+    <>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {text.split("").map((char, i) => (
+          <span
+            key={i}
+            className={variant === "solid" ? "glitch-solid" : "glitch-hollow"}
+            style={{ animationDelay: `${LETTER_DELAYS[i % LETTER_DELAYS.length]}s` }}
+          >
+            {char}
+          </span>
+        ))}
+      </span>
+    </>
+  );
+}
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -43,10 +72,10 @@ export function Hero() {
       </motion.div>
 
       <motion.div style={{ y, opacity }} className="relative z-10">
-        <h1 className="font-display font-semibold leading-[0.86] tracking-tight text-[var(--color-paper)] text-[17vw] sm:text-[15vw] md:text-[10.5vw]">
-          {hero.line1}
+        <h1 className="font-display font-semibold leading-[0.86] tracking-tight text-[17vw] sm:text-[15vw] md:text-[10.5vw]">
+          <FlickerLetters text={hero.line1} variant="solid" />
           <br />
-          <span className="text-outline">{hero.line2}</span>
+          <FlickerLetters text={hero.line2} variant="hollow" />
         </h1>
         <div className="mt-6 md:mt-8 max-w-xl">
           <p className="font-sans text-base md:text-lg text-[var(--color-paper-dim)] leading-relaxed">
