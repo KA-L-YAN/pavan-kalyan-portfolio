@@ -186,3 +186,18 @@ export const contact = {
   heading: "Have a pipeline that keeps breaking at 3am?",
   sub: "Open to data engineering and backend integration roles — or just talking through a hard systems problem.",
 };
+
+/**
+ * The hidden arcade. Not part of the scroll story — reached by the Konami code
+ * or the dim marker in the footer.
+ */
+export const arcade = {
+  name: "Pipeline Snake",
+  kicker: "ACCESS GRANTED",
+  title: "PIPELINE SNAKE",
+  blurb:
+    "A small retro arcade build. You are the pipeline — collect packets to raise throughput, and don't hit a corrupt record. When the job fails it tells you the stage and the cell it died on, because guessing at a failure is not how you debug one.",
+  footnote: "VANILLA TYPESCRIPT ON CANVAS — NO ENGINE, NO DEPENDENCIES",
+  playUrl: "https://ka-l-yan.github.io/pipeline-snake/",
+  sourceUrl: "https://github.com/KA-L-YAN/pipeline-snake",
+};

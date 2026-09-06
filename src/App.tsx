@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+import { ArcadeEgg } from "./components/ArcadeEgg";
 import { Nav } from "./components/Nav";
 import { Preloader } from "./components/Preloader";
 import { ScrollProgress } from "./components/ScrollProgress";
@@ -11,6 +14,8 @@ import { Experience } from "./components/sections/Experience";
 import { Contact } from "./components/sections/Contact";
 
 function App() {
+  const [arcadeOpen, setArcadeOpen] = useState(false);
+
   return (
     <>
       <div className="grain" />
@@ -26,7 +31,8 @@ function App() {
         <Experience />
         <Contact />
       </main>
-      <Footer />
+      <Footer onArcade={() => setArcadeOpen(true)} />
+      <ArcadeEgg open={arcadeOpen} onOpenChange={setArcadeOpen} />
     </>
   );
 }
