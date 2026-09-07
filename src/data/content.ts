@@ -181,7 +181,7 @@ export const certifications = [
 ];
 
 export const contact = {
-  index: "07",
+  index: "08",
   eyebrow: "THIS IS SOMEONE YOU'D WANT ON YOUR TEAM",
   heading: "Have a pipeline that keeps breaking at 3am?",
   sub: "Open to data engineering and backend integration roles — or just talking through a hard systems problem.",
@@ -192,6 +192,19 @@ export const contact = {
  * or the dim marker in the footer.
  */
 export const arcade = {
+  index: "07",
+  eyebrow: "THIS IS WHAT HE BUILDS OFF THE CLOCK",
+  heading: "Sometimes the pipeline is just a game.",
+  paragraphs: [
+    "A retro arcade build that runs on the same idea as the day job: you are the pipeline, packets raise throughput, and one corrupt record fails the job.",
+    "When it fails it doesn't just show a score — it reports the cause, the stage, and the exact cell it died on. Same instinct as tracing a broken integration: find the failing component, don't guess at it.",
+  ],
+  stats: [
+    { value: "10.9KB", label: "of JavaScript — no engine, no runtime dependencies" },
+    { value: "60/120", label: "Hz play identically — the loop is fixed-step" },
+    { value: "0", label: "images or audio files — every sound is synthesised" },
+  ],
+  cta: "PLAY PIPELINE SNAKE",
   name: "Pipeline Snake",
   kicker: "ACCESS GRANTED",
   title: "PIPELINE SNAKE",

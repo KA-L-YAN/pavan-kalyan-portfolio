@@ -11,6 +11,7 @@ import { Approach } from "./components/sections/Approach";
 import { Stack } from "./components/sections/Stack";
 import { Projects } from "./components/sections/Projects";
 import { Experience } from "./components/sections/Experience";
+import { Arcade } from "./components/sections/Arcade";
 import { Contact } from "./components/sections/Contact";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Stack />
         <Projects />
         <Experience />
+        <Arcade />
         <Contact />
       </main>
       <Footer onArcade={() => setArcadeOpen(true)} />
