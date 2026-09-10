@@ -1,0 +1,54 @@
+name: Deploy to Netlify
+
+# Netlify's own git integration isn't publishing this site, so the build and
+# deploy run here instead and push the result to Netlify over its API.
+#
+# Requires two repository secrets (Settings → Secrets and variables → Actions):
+#   NETLIFY_AUTH_TOKEN  – a personal access token from
+#                         app.netlify.com → User settings → Applications
+#   NETLIFY_SITE_ID     – the site's API ID, from
+#                         Site configuration → General → Site details
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: netlify-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Fail loudly and early rather than letting the CLI emit a cryptic auth error.
+      - name: Check credentials are configured
+        env:
+          TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SITE: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          missing=""
+          [ -z "$TOKEN" ] && missing="$missing NETLIFY_AUTH_TOKEN"
+          [ -z "$SITE" ] && missing="$missing NETLIFY_SITE_ID"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secret(s):$missing"
+            echo "Add them under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Publish to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: npx --yes netlify-cli@17 deploy --prod --dir=dist --message "GitHub Actions — ${{ github.sha }}"
